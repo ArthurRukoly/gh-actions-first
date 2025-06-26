@@ -1,26 +1,58 @@
-name: Nodejs Workflow
-on: push
+# name: Nodejs Workflow
+# on: push
+# jobs:
+#   test:
+#     runs-on: ubuntu-latest
+#     steps: 
+#       - name: Get Code
+#         uses: actions/checkout@v3
+#       - name: Install dependencies
+#         working-directory: ./project
+#         run: npm install
+#       - name: Run tests
+#         working-directory: ./project
+#         run: npm run test
+#   deploy:
+#     needs: test
+#     runs-on: ubuntu-latest
+#     steps: 
+#       - name: Get Code
+#         uses: actions/checkout@v3
+#       - name: Install dependencies
+#         working-directory: ./project
+#         run: npm install
+#       - name: Run deploy
+#         working-directory: ./project
+#         run: npm run build
+
+name: NodeJS Workflow
+on: [push, workflow_dispatch]
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Code
+        uses: actions/checkout@v3
+      - name: Install Dependencies
+        run: npm ci
+      - name: Run lint
+        run: npm run lint
   test:
     runs-on: ubuntu-latest
-    steps: 
+    steps:
       - name: Get Code
         uses: actions/checkout@v3
-      - name: Install dependencies
-        working-directory: ./project
-        run: npm install
-      - name: Run tests
-        working-directory: ./project
+      - name: Install Dependencies
+        run: npm ci
+      - name: Run Test
         run: npm run test
-  deploy:
-    needs: test
+  build:
+    needs: [lint, test]
     runs-on: ubuntu-latest
-    steps: 
+    steps:
       - name: Get Code
         uses: actions/checkout@v3
-      - name: Install dependencies
-        working-directory: ./project
-        run: npm install
-      - name: Run deploy
-        working-directory: ./project
+      - name: Install Dependencies
+        run: npm ci
+      - name: Run Build
         run: npm run build
