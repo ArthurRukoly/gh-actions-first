@@ -21,7 +21,8 @@ jobs:
         working-directory: ./project
         run: npm install
       - name: Run tests
-        run: npm test
+        working-directory: ./project
+        run: npm run test
   deploy:
     runs-on: ubuntu-latest
     steps: 
@@ -32,4 +33,4 @@ jobs:
         run: npm install
       - name: Run deploy
         working-directory: ./project
-        run: npm build
+        run: npm run build
