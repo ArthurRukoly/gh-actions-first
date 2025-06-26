@@ -10,20 +10,15 @@
 #         run: echo "Done - Bye"
     
 name: Nodejs Workflow
-on: workflow_dispatch
+on: push
 jobs:
   test:
     runs-on: ubuntu-latest
     steps: 
       - name: Get Code
         uses: actions/checkout@v3
-      - name: Display Files
-        run: ls 
-      - name: Enter project's folder
-        run: cd project/
-      - name: Display Files
-        run: ls 
       - name: Install dependencies
+        working-directory: ./project
         run: npm install
       - name: Run tests
         run: npm test
@@ -32,13 +27,9 @@ jobs:
     steps: 
       - name: Get Code
         uses: actions/checkout@v3
-      - name: Display Files
-        run: ls 
-      - name: Enter project's folder
-        run: cd project/
-      - name: Display Files
-        run: ls 
       - name: Install dependencies
+        working-directory: ./project
         run: npm install
       - name: Run deploy
+        working-directory: ./project
         run: npm build
