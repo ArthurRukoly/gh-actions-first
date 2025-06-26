@@ -13,7 +13,7 @@ jobs:
         working-directory: ./project
         run: npm run test
   deploy:
-    depends: test
+    needs: test
     runs-on: ubuntu-latest
     steps: 
       - name: Get Code
